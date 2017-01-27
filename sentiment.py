@@ -9,7 +9,7 @@ import csv
 from collections import OrderedDict
 from sklearn.cluster import KMeans
 from sklearn import preprocessing
-from match import reg_title
+#from match import reg_title
 from scipy.stats import ttest_ind
 
 def text_clean(filename):
@@ -55,13 +55,17 @@ def dirty_windows(window_list):
     return window_sents
 
 #Get list of paths to all scripts
-scripts = os.listdir('scripts')
-paths = []
-for script in scripts:
-    new_path = 'scripts/{}'.format(script)
-    paths.append(new_path)
+def get_script_filepaths():
+    scripts = os.listdir('Desktop/demetria/StoryArcs/scripts')
+    paths = []
+    for script in scripts:
+        new_path = 'Desktop/demetria/StoryArcs/scripts/{}'.format(script)
+        paths.append(new_path)
+    return paths
 
-print "Made it to line 60"
+#paths = get_script_filepaths()
+
+#print "Made it to line 60"
 
 def make_array(paths, number_movies, window_divisor):
     '''
@@ -82,19 +86,22 @@ def make_array(paths, number_movies, window_divisor):
             list_movie_meanwindowsent.append(window_polarity)
             movie_names.append(movie)
 
+    #Make it just the name of the movie instead of the whole filepath
+    for i,value in enumerate(movie_names):
+        movie_names[i] = value.replace(value, value[8:-4])
+
     X = np.array(list_movie_meanwindowsent)
     movie_names = np.array(movie_names)
 
     return X, movie_names
 
 print "made it to line 85"
-X, movie_names = make_array(paths, len(paths), 6)
+#X, movie_names = make_array(paths, len(paths), 6)
 #To make all movies, set number_movies = len(paths)
 # print X.shape
 print "made it to line 90"
 
-for i,value in enumerate(movie_names):
-    movie_names[i] = value.replace(value, value[8:-4])
+
 
 '''
 TO DO:
@@ -115,22 +122,26 @@ def deltas(X):
     diff_array = np.array(diff_array)
     return diff_array
 
-diff_array = deltas(X)
+#diff_array = deltas(X)
 
 print "made it to line 119"
 
 
 #
 # #Cluster!!!!!!!!!!!!!!!
-n_clusters = 3
-model = KMeans(n_clusters=n_clusters, n_jobs=-2, random_state=27)
-predictions = model.fit_predict(diff_array)
 
-print "made it to line 127"
-#
-# #Add the predicted clusters as the last column of the data frame.
-X_and_pred = np.column_stack((diff_array, predictions))
-print X_and_pred.shape
+def cluster_predictions(n_clusters, random_state, diff_array):
+
+    model = KMeans(n_clusters=n_clusters, n_jobs=-2, random_state=random_state)
+    predictions = model.fit_predict(diff_array)
+    #
+    # #Add the predicted clusters as the last column of the data frame.
+    X_and_pred = np.column_stack((diff_array, predictions))
+    print "the shape of diff array plus cluster number is:"
+    print X_and_pred.shape
+
+    return predictions, X_and_pred
+
 '''
 REMEMBER: X_and_pred IS AN ARRAY WITH DIMENSIONS
 (N_MOVIES-1, N_WINDOWS+1)
@@ -144,35 +155,44 @@ To do:
 2. Add the name of the movie as the index.
 3. Get additional data about the movie to use as features.
 '''
+def reg_title(title):
+    if title.split()[0] == 'The':
+        rest = '-'.join(title.split()[1:])
+        title = ''.join([rest, ',-The'])
+    else:
+        title = title.replace(" ", "-")
+    return title
 
-cols = []
-for i,column in enumerate(X_and_pred.T):
-    col_name = 'window_{}'.format(i)
-    cols.append(col_name)
+def add_features(X_and_pred, movie_names):
+    '''
+    Ignore this weird function.  Am doing it a different way now, will update soon.
+    '''
+    cols = []
+    for i,column in enumerate(X_and_pred.T):
+        col_name = 'window_{}'.format(i)
+        cols.append(col_name)
 
-cols[-1] = cols[-1].replace(cols[-1], 'predicted_cluster')
+    cols[-1] = cols[-1].replace(cols[-1], 'predicted_cluster')
 
-df = pd.DataFrame(X_and_pred, columns=cols)
-df['title'] = movie_names
+    df = pd.DataFrame(X_and_pred, columns=cols)
+    df['title'] = movie_names
 
-titles = pd.read_csv('box_office.csv')
-titles['title'] = titles['title'].apply(reg_title)
+    #df = df.merge(titles)
+    print df.head()
+    return df
 
-df = df.merge(titles)
-print df.head()
-
-def oh_no_test(df):
+def oh_no_test(df, n_clusters):
     clusters = []
     for i in range(n_clusters):
         print "cluster {}".format(i)
         print df[df['predicted_cluster']==float(i)].shape
         cluster = df[df['predicted_cluster']==float(i)]
-        clusters.append(cluster['domestic gross'])
-    print "t tests D:"
-    for i in range(len(clusters) - 1):
-        print ttest_ind(clusters[i], clusters[i+1], equal_var=False)
+        #clusters.append(cluster['domestic gross'])
+    # print "t tests D:"
+    # for i in range(len(clusters) - 1):
+    #     print ttest_ind(clusters[i], clusters[i+1], equal_var=False)
 
-print oh_no_test(df)
+
 
 # print "cluster 2"
 # print df[df['predicted_cluster']==2.0].shape
@@ -190,6 +210,27 @@ print oh_no_test(df)
 # print df[df['predicted_cluster']==3.0].shape
 # cluster3 = df[df['predicted_cluster']==3.0]
 # print np.mean(cluster3['domestic gross'])
+
+
+if __name__ == '__main__':
+    window_divisor = 6
+    n_clusters = 3
+    rs = 123
+    #subset = len(paths) #for all movies
+    subset = 20
+
+    paths = get_script_filepaths()
+    print "got script filepaths"
+    X, movie_names = make_array(paths, subset, window_divisor=window_divisor)
+    print "created array, added movie names"
+    diff_array = deltas(X)
+    print "created deltas array"
+    predictions, X_and_pred = cluster_predictions(n_clusters=n_clusters, random_state=rs, diff_array=diff_array)
+    print "fit model"
+    df = add_features(X_and_pred, movie_names)
+    print "made pd df"
+    print oh_no_test(df, n_clusters)
+
 
 '''
 
