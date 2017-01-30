@@ -66,6 +66,8 @@ def get_script_filepaths():
     '''
     Get list of filepaths to each script to input into cleaning function.
     '''
+    #I find it a bit confusing that scripts the variable is equal to os.listdir('scripts'). 'scripts' i assume is a file path,
+    #but since the name is the same, it looks like it's the name of another variable that should have been passed to the function.
     scripts = os.listdir('scripts')
     paths = []
     for script in scripts:
@@ -169,6 +171,7 @@ To do:
 '''
 def reg_title(title):
     if title.split()[0] == 'The':
+        #do you need the 'rest' variable? it looks like you're only using title
         rest = '-'.join(title.split()[1:])
         title = ''.join([rest, ',-The'])
     else:
@@ -197,6 +200,7 @@ def add_features(X_and_pred, movie_names):
     return df
 
 def oh_no_test(df, n_clusters):
+    #Missing docstring
     clusters = []
     for i in range(n_clusters):
         print "cluster {}".format(i)
@@ -293,7 +297,8 @@ if __name__ == '__main__':
     cluster_plot(X_and_pred, predictions, limit=2)
 
 
-
+##Looks great, Dee! I made a couple of comments for extra extra clarity, but your code flows very logically and the function names are very
+##descriptive. Can't wait to see what happens!!
 
 
 
