@@ -14,7 +14,7 @@ def get_year(name):
 
         if 'year' in first_res.keys():
             Year = first_res['year']
-            movie_id = first_res.movieID
+            #movie_id = first_res.movieID
             print "getting year data for {}".format(name)
 
             return Year
@@ -37,7 +37,7 @@ def get_rating(name):
 
         if 'rating' in first_res.keys():
             Rating = first_res['rating']
-            movie_id = first_res.movieID
+            #movie_id = first_res.movieID
             print "getting rating data for {}".format(name)
 
             return Rating
@@ -60,7 +60,7 @@ def get_mpaa(name):
 
         if 'mpaa' in first_res.keys():
             Mpaa = first_res['mpaa']
-            movie_id = first_res.movieID
+            #movie_id = first_res.movieID
             print "getting mpaa data for {}".format(name)
 
             return Mpaa

@@ -41,4 +41,4 @@ if __name__ == '__main__':
     print df
 
     print "finished general data"
-    df.to_csv('movie_other.csv',index=False)
+    #df.to_csv('movie_other2.csv',index=False)
