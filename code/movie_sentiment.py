@@ -1,5 +1,3 @@
-#This thing needs to be tested.
-
 '''
 This script will read in all scripts, create their story arcs based on polarity, cluster by story shape, and then output a CSV columns for movie title, sentiment change for each window, and shape cluster.
 '''
@@ -199,44 +197,36 @@ def add_features(X_and_clus, movie_names, meta=True, ending=None):
 
 if __name__ == '__main__':
 
-    #paths = get_script_filepaths('../data/scripts')
+    paths = get_script_filepaths('../data/scripts')
 
     #Set parameters for creating story arcs:
     window_divisor = 12
     n_clusters = 4
     rs = 456
-    #subset = len(paths) #for all movies
+    subset = len(paths) #for all movies
     #subset = 10
-    #
-    # #Create array of sentiment scores for each window of each movie
-    # sent_array, movie_names = make_array(paths, subset, window_divisor=window_divisor)
-    #
-    # #Create array of differences in sentiment between each window.
-    # diff_array = deltas(sent_array)
-    #
-    # #Cluster movies based on shape, omitting the ending:
-    # # cluster_numbers, X_and_clus, ending = shape_clusters(n_clusters=n_clusters, random_state=rs, diff_array=diff_array, omit_ending=True)
-    #
-    # #Cluster movies based on shape, WITH the ending:
-    # #This is just for interest/plotting; it does NOT belong in the ending prediction model (due to obvious endogeneity).
-    # ENDcluster_numbers, ENDX_and_clus = shape_clusters(n_clusters=n_clusters, random_state=rs, diff_array=diff_array, omit_ending=False)
-    # df = add_features(ENDX_and_clus, movie_names, meta=False)
-    # df.to_csv('../data/movie_endings_crazy.csv',index=False)
 
-    #Put what we've created so far into a dataframe and save it as a CSV.
-    # df = add_features(X_and_clus, movie_names, meta=True, ending)
-    # df.to_csv('../data/all_the_movie_data.csv',index=False)
+    #Create array of sentiment scores for each window of each movie
+    sent_array, movie_names = make_array(paths, subset, window_divisor=window_divisor)
 
+    #Create array of differences in sentiment between each window.
+    diff_array = deltas(sent_array)
 
-    clean_movie = text_clean('../data/scripts/Princess-Bride,-The.txt')
-    list_movie_meanwindowsent = []
-    movie_windows = windows(clean_movie, int(len(clean_movie)/window_divisor + 1))
-    window_polarity = polarity_windows(movie_windows)
+    #Cluster movies based on shape, omitting the ending:
+    # cluster_numbers, X_and_clus, ending = shape_clusters(n_clusters=n_clusters, random_state=rs, diff_array=diff_array, omit_ending=True)
+
+    #Cluster movies based on shape, WITH the ending:
+    #This is just for interest/plotting; it does NOT belong in the ending prediction model (due to obvious endogeneity).
+    ENDcluster_numbers, ENDX_and_clus = shape_clusters(n_clusters=n_clusters, random_state=rs, diff_array=diff_array, omit_ending=False)
+    df = add_features(ENDX_and_clus, movie_names, meta=False)
+    # df.to_csv('../data/movie_endings.csv',index=False)
+
+    # For creating the first plot in the Readme
+    # clean_movie = text_clean('../data/scripts/Princess-Bride,-The.txt')
+    # list_movie_meanwindowsent = []
+    # movie_windows = windows(clean_movie, int(len(clean_movie)/window_divisor + 1))
+    # window_polarity = polarity_windows(movie_windows)
     # if len(window_polarity) == window_divisor-1:
     #     list_movie_meanwindowsent.append(window_polarity)
     # princess_bride = pd.DataFrame(list_movie_meanwindowsent)
     # princess_bride.to_csv('../data/princess_bride.csv')
-
-    for window in movie_windows:
-        print window[0:1000]
-        print "***************************************"
