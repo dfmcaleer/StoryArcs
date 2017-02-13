@@ -10,7 +10,7 @@
 
 + The purpose of this project is to see what we can learn about how stories work by analyzing their shapes.
 
-![alt text](https://github.com/dfmcaleer/StoryArcs/plots/princess-bride.png "For example, this is the shape of the movie *The Princess Bride*.")
+![alt text](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/princess-bride.png "For example, this is the shape of the movie *The Princess Bride*.")
 
 #### Creating story shapes
 
@@ -22,7 +22,7 @@
 
 + When you plot all the movie scripts together, you get... story shape spaghetti, like so:
 
-![alt text](https://github.com/dfmcaleer/StoryArcs/plots/all-the-movies "Madness!")
+![alt text](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/all-the-movies.png "Madness!")
 
 #### Clusters
 
@@ -40,7 +40,7 @@
 
 + Why four clusters, you might ask?  Whenever I chose a number higher than four, the clusters would overlay each other - essentially, wanting to form four clusters even when I tried higher numbers.
 
-![alt tag](https://github.com/dfmcaleer/StoryArcs/plots/four-clusters.png "Each line is the mean sentiment at each point for each cluster.")
+![alt tag](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/four-clusters.png)
 
 + It's fun to see which movies fall into each cluster!  For example, the green cluster that goes sad-happy-sad is *Star Wars: The Empire Strikes Back*, and the yellow cluster that has some ups and downs but ends happy is *Star Wars: Return of the Jedi*.
 
