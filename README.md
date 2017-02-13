@@ -1,8 +1,8 @@
-## StoryArcs
-### Galvanize Data Science Capstone Project
-### Demetria McAleer
+# StoryArcs
+## Galvanize Data Science Capstone Project
+## Demetria McAleer
 
-#### Story shapes
+### Story shapes
 
 + The emotional ups and downs of every story form its shape.
 
@@ -10,9 +10,9 @@
 
 + The purpose of this project is to see what we can learn about how stories work by analyzing their shapes.
 
-![alt text](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/princess-bride.png "For example, this is the shape of the movie *The Princess Bride*.")
+![alt text](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/princess-bride.png | width=100)
 
-#### Creating story shapes
+### Creating story shapes
 
 + I web-scraped about 1100 movie scripts from the Internet Movie Script Database.
 
@@ -24,17 +24,17 @@
 
 ![alt text](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/all-the-movies.png "Madness!")
 
-#### Clusters
+### Clusters
 
 + My next step was to use K-means clustering to group common story shapes together.  But a problem immediately emerged...
 
-#### Change in sentiment vs. absolute sentiment
+### Change in sentiment vs. absolute sentiment
 
 + Because some movies just are happier or sadder than others, movies wind up clustered on their overall average sentiment rather than the actual shape of the story.
 
 + For this reason, at this point I switch to representing each story as a vector of the *differences* between the sentiments at each point, rather than the absolute sentiment.
 
-#### Clusters, but actually working this time
+### Clusters, but actually working this time
 
 + Using K-means, four distinct clusters of movies occur.
 
@@ -44,4 +44,4 @@
 
 + It's fun to see which movies fall into each cluster!  For example, the green cluster that goes sad-happy-sad is *Star Wars: The Empire Strikes Back*, and the yellow cluster that has some ups and downs but ends happy is *Star Wars: Return of the Jedi*.
 
-#### But what do the clusters mean?
+### But what do the clusters mean?
