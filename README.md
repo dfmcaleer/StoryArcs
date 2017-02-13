@@ -10,7 +10,7 @@
 
 + The purpose of this project is to see what we can learn about how stories work by analyzing their shapes.
 
-![alt text](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/princess-bride.png | width=100)
+![alt text](https://github.com/dfmcaleer/StoryArcs/blob/master/plots/princess-bride.png width=100)
 
 ### Creating story shapes
 
