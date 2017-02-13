@@ -40,7 +40,7 @@
 
 + Why four clusters, you might ask?  Whenever I chose a number higher than four, the clusters would overlay each other - essentially, wanting to form four clusters even when I tried higher numbers.
 
-![alt text](https://github.com/dfmcaleer/StoryArcs/plots/four-clusters.png "Each line is the mean sentiment at each point for each cluster.")
+![alt tag](https://github.com/dfmcaleer/StoryArcs/plots/four-clusters.png "Each line is the mean sentiment at each point for each cluster.")
 
 + It's fun to see which movies fall into each cluster!  For example, the green cluster that goes sad-happy-sad is *Star Wars: The Empire Strikes Back*, and the yellow cluster that has some ups and downs but ends happy is *Star Wars: Return of the Jedi*.
 
